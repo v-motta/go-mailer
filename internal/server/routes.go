@@ -12,14 +12,15 @@ func (s *Server) RegisterRoutes() http.Handler {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	e.GET("/", s.HelloWorldHandler)
+	e.GET("/", s.Health)
+	e.POST("/send", s.Send)
 
 	return e
 }
 
-func (s *Server) HelloWorldHandler(c echo.Context) error {
+func (s *Server) Health(c echo.Context) error {
 	resp := map[string]string{
-		"message": "Hello World",
+		"message": "GO Mailer Server is running",
 	}
 
 	return c.JSON(http.StatusOK, resp)
