@@ -7,5 +7,9 @@ import (
 )
 
 func Health(c echo.Context) error {
-	return c.String(http.StatusOK, "I'm alive!")
+	resp := map[string]string{
+		"message": "GO Mailer Server is running",
+	}
+
+	return c.JSON(http.StatusOK, resp)
 }
