@@ -1,8 +1,9 @@
-package server
+package handlers
 
 import (
 	"fmt"
-	"go-mailer/internal/models"
+	"go-mailer/models"
+	"log"
 	"net/http"
 	"net/smtp"
 	"os"
@@ -10,7 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (s *Server) Send(c echo.Context) error {
+func Send(c echo.Context) error {
 	emailAddress := os.Getenv("EMAIL_ADDRESS")
 	emailPassword := os.Getenv("EMAIL_PASSWORD")
 	from := emailAddress
@@ -36,6 +37,7 @@ func (s *Server) Send(c echo.Context) error {
 
 	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
 	if err != nil {
+		log.Println(err)
 		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to send email")
 	}
 
